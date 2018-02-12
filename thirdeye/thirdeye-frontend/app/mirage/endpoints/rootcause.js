@@ -17,7 +17,34 @@ export default function(server) {
         derived : [ "false" ],
         additive : [ "true" ]
       }
-    } ];
+    }, {
+      urn : "thirdeye:timerange:anomaly:1512400800000:1512428100000",
+      score : 1.0,
+      label : "thirdeye:timerange:anomaly:1512400800000:1512428100000",
+      type : "other",
+      link : null,
+      relatedEntities : [ ],
+      attributes : { }
+    }, {
+      urn : "thirdeye:timerange:analysis:1511423999000:1512028799000",
+      score : 1.0,
+      label : "thirdeye:timerange:analysis:1511423999000:1512028799000",
+      type : "other",
+      link : null,
+      relatedEntities : [ ],
+      attributes : { }
+    }, {
+      urn : "thirdeye:event:anomaly:1",
+      score : 1.0,
+      label : "anomaly_label",
+      type : "event",
+      link : "#/rootcause?anomalyId=1",
+      relatedEntities : [ ],
+      attributes : {
+        function : [ "anomaly_label" ],
+        status : [ "NOT_ANOMALY" ]
+      }
+    }];
   });
 
   /**
@@ -68,5 +95,41 @@ export default function(server) {
       created : 1517363257776,
       updated : 1517363257776
     };
+  });
+
+  /**
+   * Post request for saving anomaly reports
+   */
+  server.post(`/session`, () => {
+    const hardCodedId = 1;
+    return hardCodedId;
+  });
+
+  /**
+   * TODO: Once API is finalized, have this call return something meaningful
+   */
+  server.get('/timeseries/query', () => {
+    return {};
+  });
+
+  /**
+   * TODO: Once API is finalized, have this call return something meaningful
+   */
+  server.get('/rootcause/query', () => {
+    return {};
+  });
+
+  /**
+   * TODO: Once API is finalized, have this call return something meaningful
+   */
+  server.get('/aggregation/aggregate', () => {
+    return {};
+  });
+
+  /**
+   * TODO: Once API is finalized, have this call return something meaningful
+   */
+  server.get('/session/query', () => {
+    return {};
   });
 }

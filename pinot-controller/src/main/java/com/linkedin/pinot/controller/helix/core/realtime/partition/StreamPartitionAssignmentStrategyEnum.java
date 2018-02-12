@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.linkedin.pinot.tools.data.generator;
+
+package com.linkedin.pinot.controller.helix.core.realtime.partition;
 
 /**
- * Sep 14, 2014
+ * Enum to define partition assignment strategies for a table
  */
-
-public interface FileWriter {
-
+public enum StreamPartitionAssignmentStrategyEnum {
+  UniformStreamPartitionAssignment,
+  BalancedStreamPartitionAssignment
 }

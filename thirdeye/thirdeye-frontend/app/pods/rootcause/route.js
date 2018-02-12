@@ -13,6 +13,8 @@ const queryParamsConfig = {
 };
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
+  authService: Ember.inject.service('session'),
+
   queryParams: {
     metricId: queryParamsConfig,
     sessionId: queryParamsConfig,
@@ -36,12 +38,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     }
 
     if (sessionId) {
-      session = fetch(`/session/${sessionId}`).then(checkStatus).catch(res => undefined);
+      session = fetch(`/session/${sessionId}`).then(checkStatus).catch(() => undefined);
     }
 
     if (anomalyUrn) {
-      anomalyContext = fetch(`/rootcause/raw?framework=anomalyContext&urns=${anomalyUrn}`).then(checkStatus).catch(res => undefined);
-      anomalySessions = fetch(`/session/query?anomalyId=${anomalyId}`).then(checkStatus).catch(res => undefined);
+      anomalyContext = fetch(`/rootcause/raw?framework=anomalyContext&urns=${anomalyUrn}`).then(checkStatus).catch(() => undefined);
+      anomalySessions = fetch(`/session/query?anomalyId=${anomalyId}`).then(checkStatus).catch(() => undefined);
     }
 
     return RSVP.hash({
@@ -127,6 +129,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     let selectedUrns = new Set();
     let sessionName = 'New Investigation (' + moment().format(dateFormatFull) + ')';
     let sessionText = '';
+    let sessionOwner = this.get('authService.data.authenticated.name');
+    let sessionPermissions = 'READ_WRITE';
     let sessionUpdatedBy = '';
     let sessionUpdatedTime = '';
     let sessionModified = true;
@@ -184,7 +188,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     // session-initialized context
     if (sessionId) {
       if (!_.isEmpty(session)) {
-        const { name, text, updatedBy, updated } = model.session;
+        const { name, text, updatedBy, updated, owner, permissions } = model.session;
         context = {
           urns: new Set(session.contextUrns),
           anomalyRange: [session.anomalyRangeStart, session.anomalyRangeEnd],
@@ -197,6 +201,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
         sessionName = name;
         sessionText = text;
+        sessionOwner = owner;
+        sessionPermissions = permissions;
         sessionUpdatedBy = updatedBy;
         sessionUpdatedTime = updated;
         sessionModified = false;
@@ -211,6 +217,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       sessionId,
       sessionName,
       sessionText,
+      sessionOwner,
+      sessionPermissions,
       sessionUpdatedBy,
       sessionUpdatedTime,
       sessionModified,

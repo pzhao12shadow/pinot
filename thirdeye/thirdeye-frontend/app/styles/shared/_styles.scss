@@ -529,7 +529,7 @@ body {
     list-style: none;
     margin-left: -39px;
     margin-bottom: 0;
-    max-width: 230px;
+    max-width: 250px;
 
     &--lighter {
       font-size: 12px;
@@ -541,15 +541,30 @@ body {
       font-size: 13px;
     }
 
-    &--smaller {
-      font-size: 12px;
-      margin-left: -2px;
-    }
-
     &--shadow {
       position: absolute;
       color: app-shade(black, 2);
       margin-left: -18px;
+    }
+  }
+
+  &__list-item {
+    font-size: 12px;
+    margin-left: -2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__value-label {
+    font-size: 13px;
+
+    &--up {
+      color: $te-green;
+    }
+
+    &--down {
+      color: $te-red;
     }
   }
 
@@ -715,6 +730,9 @@ body {
     color: app-shade(black, 5);
     word-wrap: break-word;
     max-width: 340px;
+    max-height: 65px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__title-group {
@@ -728,6 +746,13 @@ body {
 
   &__title {
     min-width: 95px;
+  }
+
+  &__title-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 660px;
+    margin: -30px 0 0 74px;
   }
 
   &__edit-button {
